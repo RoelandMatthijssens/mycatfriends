@@ -5,7 +5,6 @@ import Scroll from './components/Scroll'
 
 function App() {
   const [users, setUsers] = useState([])
-  const [filteredUsers, setFilteredUsers] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
 
   useEffect(() => {
@@ -13,13 +12,10 @@ function App() {
       return response.json()
     }).then( (users) => {
       setUsers(users)
-      setFilteredUsers(users)
     })
   }, [])
 
-  useEffect(() => {
-    setFilteredUsers(users.filter(user => user.name.toLowerCase().includes(searchTerm.toLowerCase())))
-  }, [users, searchTerm])
+  const filteredUsers = users.filter(user => user.name.toLowerCase().includes(searchTerm.toLowerCase()))
 
   return (
     <div className="App tc">
