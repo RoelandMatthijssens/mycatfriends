@@ -1,21 +1,30 @@
 import {useState, useEffect} from 'react'
 import CardList from './components/CardList'
 import TopNav from './components/TopNav'
-import {cats} from './data/cats'
 import './App.css'
 
 function App() {
   const [users, setUsers] = useState([])
+  const [filteredUsers, setFilteredUsers] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
 
   useEffect(() => {
-    setUsers(cats.filter(user => user.name.toLowerCase().includes(searchTerm)))
-  }, [searchTerm])
+    fetch('https://jsonplaceholder.typicode.com/users').then((response) => {
+      return response.json()
+    }).then( (users) => {
+      setUsers(users)
+      setFilteredUsers(users)
+    })
+  }, [])
+
+  useEffect(() => {
+    setFilteredUsers(users.filter(user => user.name.toLowerCase().includes(searchTerm.toLowerCase())))
+  }, [users, searchTerm])
 
   return (
     <div className="App">
       <TopNav onSearch={setSearchTerm} />
-      <CardList users={users} />
+      <CardList users={filteredUsers} />
     </div>
   );
 }
