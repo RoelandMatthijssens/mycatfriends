@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react'
 import CardList from './components/CardList'
 import TopNav from './components/TopNav'
-import './App.css'
+import Scroll from './components/Scroll'
 
 function App() {
   const [users, setUsers] = useState([])
@@ -22,9 +22,11 @@ function App() {
   }, [users, searchTerm])
 
   return (
-    <div className="App">
+    <div className="App tc">
       <TopNav onSearch={setSearchTerm} />
-      <CardList users={filteredUsers} />
+      <Scroll>
+        <CardList users={filteredUsers} />
+      </Scroll>
     </div>
   );
 }
